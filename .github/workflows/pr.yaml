@@ -26,13 +26,13 @@ jobs:
           ANSIBLE_VERSION: "2.10"
         run: |
           pip install \
-            "molecule==$MOLECULE_VERSION" \
-            "molecule-docker==$MOLECULE_DOCKER_VERSION" \
+            molecule \
+            molecule-docker \
             yamllint \
-            "ansible-lint==$ANSIBLE_LINT_VERSION" \
+            ansible-lint \
             openshift \
             jmespath \
-            "ansible==$ANSIBLE_VERSION"
+            ansible
       - name: Install collections
         run: |
           ansible-galaxy collection install -r requirements.yml
