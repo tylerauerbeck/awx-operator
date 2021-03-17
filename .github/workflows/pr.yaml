@@ -3,9 +3,9 @@ name: Pull Request
 
 on:
   push:
-    branches: [devel, add-gha]
+    branches: [devel]
   pull_request:
-    branches: [devel, add-gha]
+    branches: [devel]
 
 jobs:
   pull_request:
@@ -28,6 +28,8 @@ jobs:
             openshift \
             jmespath \
             ansible
+          wget -O /usr/local/bin/operator-sdk https://github.com/operator-framework/operator-sdk/releases/download/v0.19.4/operator-sdk-v0.19.4-x86_64-linux-gnu
+          chmod +x /usr/local/bin/operator-sdk
       - name: Install collections
         run: |
           ansible-galaxy collection install community.kubernetes operator_sdk.util
@@ -36,6 +38,9 @@ jobs:
           MOLECULE_VERBOSITY: 3
         run: |
           molecule test -s test-local
+      - name: Build Image
+        run: |
+          operator-sdk build quay.io/ansible/operator-sdk:${GITHUB_SHA::8}
       - name: Get Images
         run: |
           docker images
