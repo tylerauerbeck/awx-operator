@@ -28,8 +28,10 @@ jobs:
             openshift \
             jmespath \
             ansible
-          wget -O /usr/local/bin/operator-sdk https://github.com/operator-framework/operator-sdk/releases/download/v0.19.4/operator-sdk-v0.19.4-x86_64-linux-gnu
-          chmod +x /usr/local/bin/operator-sdk
+          mkdir -p $GITHUB_WORKSPACE/bin && \
+          wget -O $GITHUB_WORKSPACE/bin/operator-sdk https://github.com/operator-framework/operator-sdk/releases/download/v0.19.4/operator-sdk-v0.19.4-x86_64-linux-gnu && \
+          chmod +x $GITHUB_WORKSPACE/bin/operator-sdk
+          echo "$GITHUB_WORKSPACE/bin" >> $GITHUB_PATH
       - name: Install collections
         run: |
           ansible-galaxy collection install community.kubernetes operator_sdk.util
