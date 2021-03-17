@@ -1,0 +1,35 @@
+name: Pull Request
+
+on:
+  push:
+    branches: [ devel, add-gha ]
+  pull_request:
+    branches: [ devel, add-gha ]
+
+jobs:
+  pull_request:
+    runs-on: ubuntu-latest
+    name: pull_request
+    env:
+      DOCKER_API_VERSION: "1.38"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        env:
+          MOLECULE_VERSION: "3.2.4"
+          MOLECULE_DOCKER_VERSION: "0.2.4"
+          ANSIBLE_LINT_VERSION: "4.3.5"
+          ANSIBLE_VERSION: "2.10"
+        run: |
+          pip install "molecule==$MOLECULE_VERSION" "molecule-docker==$MOLECULE_DOCKER_VERSION" yamllint "ansible-lint==$ANSIBLE_LINT_VERSION" openshift jmespath "ansible==ANSIBLE_VERSION"
+      - name: Install collections
+        run: |
+          ansible-galaxy collection install -r requirements.yml
+      - name: Run Molecule
+        env:
+          MOLECULE_VERBOSITY: 3
+        run: |
+          molecule test -s test-local
