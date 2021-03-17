@@ -3,9 +3,9 @@ name: Pull Request
 
 on:
   push:
-    branches: [devel]
+    branches: [devel, add-gha]
   pull_request:
-    branches: [devel]
+    branches: [devel, add-gha]
 
 jobs:
   pull_request:
