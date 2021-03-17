@@ -35,7 +35,7 @@ jobs:
             ansible
       - name: Install collections
         run: |
-          ansible-galaxy collection install community.kubernetes operator_sdk.util 
+          ansible-galaxy collection install community.kubernetes operator_sdk.util
       - name: Run Molecule
         env:
           MOLECULE_VERBOSITY: 3
