@@ -19,11 +19,6 @@ jobs:
         with:
           python-version: "3.x"
       - name: Install dependencies
-        env:
-          MOLECULE_VERSION: "3.2.4"
-          MOLECULE_DOCKER_VERSION: "0.2.4"
-          ANSIBLE_LINT_VERSION: "4.3.5"
-          ANSIBLE_VERSION: "2.10"
         run: |
           pip install \
             molecule \
@@ -41,3 +36,6 @@ jobs:
           MOLECULE_VERBOSITY: 3
         run: |
           molecule test -s test-local
+      - name: Get Images
+        run: |
+          docker images
